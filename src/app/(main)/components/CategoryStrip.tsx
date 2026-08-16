@@ -2,6 +2,7 @@ import Link from "next/link";
 import pool from "@/lib/db";
 import * as Icons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { unstable_noStore as noStore } from "next/cache"; // 🔥 1. YE IMPORT KARO
 
 type Category = {
   name: string;
@@ -10,6 +11,8 @@ type Category = {
 };
 
 export default async function CategoryStrip() {
+  noStore();
+
   let categories: Category[] = [];
   try {
     const [rows] = await pool.execute(
