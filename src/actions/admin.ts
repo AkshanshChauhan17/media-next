@@ -87,6 +87,8 @@ export async function createCategory(formData: FormData) {
 
     revalidatePath("/admin/categories");
     revalidatePath("/admin");
+    revalidatePath("/", "layout"); // 🔥 ADDED: Frontend ka cache turant clear karega
+    
     return { success: true };
   } catch (error) {
     return { success: false, error: "Database error" };
@@ -126,6 +128,8 @@ export async function createMediaItem(formData: FormData) {
 
     revalidatePath("/admin/media");
     revalidatePath("/admin");
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     console.error("Create media error:", error);
@@ -168,6 +172,8 @@ export async function updateMediaItem(id: number, formData: FormData) {
 
     revalidatePath("/admin/media");
     revalidatePath("/admin");
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     console.error("Update media error:", error);
@@ -201,6 +207,8 @@ export async function updateCategory(id: number, formData: FormData) {
     revalidatePath("/admin/media"); 
     revalidatePath("/admin");
     revalidatePath(`/media/${slug}`); 
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     return { success: false, error: "Database error" };
@@ -211,7 +219,10 @@ export async function toggleCategoryStatus(id: number, currentStatus: string) {
   try {
     const newStatus = currentStatus === 'ACTIVE' ? 'HIDDEN' : 'ACTIVE';
     await pool.execute("UPDATE categories SET status = ? WHERE id = ?", [newStatus, id]);
+    
     revalidatePath("/admin/categories");
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     return { success: false };
@@ -221,8 +232,11 @@ export async function toggleCategoryStatus(id: number, currentStatus: string) {
 export async function deleteCategory(id: number) {
   try {
     await pool.execute("DELETE FROM categories WHERE id = ?", [id]);
+    
     revalidatePath("/admin/categories");
     revalidatePath("/admin");
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     return { success: false };
@@ -232,8 +246,11 @@ export async function deleteCategory(id: number) {
 export async function deleteMediaItem(id: number) {
   try {
     await pool.execute("DELETE FROM media_items WHERE id = ?", [id]);
+    
     revalidatePath("/admin/media");
     revalidatePath("/admin");
+    revalidatePath("/", "layout"); // 🔥 ADDED
+    
     return { success: true };
   } catch (error) {
     return { success: false };
