@@ -1,6 +1,3 @@
-export const dynamic = "force-dynamic";
-"use client";
-
 import { UploadCloud } from "lucide-react";
 import { createMediaItem } from "@/actions/admin";
 

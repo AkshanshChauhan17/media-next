@@ -1,8 +1,8 @@
 import Link from "next/link";
-import pool from "@/lib/db";
 import * as Icons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { unstable_noStore as noStore } from "next/cache"; // 🔥 1. YE IMPORT KARO
+import { unstable_noStore as noStore } from "next/cache"; 
+import { getActiveCategories } from "@/actions/media"; // 👈 Apne file path ke hisaab se change kar lena agar zaroorat ho
 
 type Category = {
   name: string;
@@ -11,13 +11,12 @@ type Category = {
 };
 
 export default async function CategoryStrip() {
-  noStore();
+  noStore(); 
 
   let categories: Category[] = [];
+  
   try {
-    const [rows] = await pool.execute(
-      "SELECT name, slug, icon FROM categories WHERE status = 'ACTIVE' ORDER BY created_at DESC"
-    );
+    const rows = await getActiveCategories();
     categories = rows as Category[];
   } catch (error) {
     console.error("Failed to fetch categories for strip", error);

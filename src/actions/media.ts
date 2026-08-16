@@ -2,6 +2,18 @@ import { cache } from "react";
 import type { RowDataPacket } from "mysql2";
 import pool from "@/lib/db";
 
+export const getActiveCategories = cache(async () => {
+  try {
+    const [rows] = await pool.execute<RowDataPacket[]>(
+      "SELECT name, slug, icon FROM categories WHERE status = 'ACTIVE' ORDER BY created_at DESC"
+    );
+    return rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return [];
+  }
+});
+
 export const getCategoryDetails = cache(async (slug: string) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
