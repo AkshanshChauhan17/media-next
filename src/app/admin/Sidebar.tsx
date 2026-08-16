@@ -47,13 +47,13 @@ export default function Sidebar() {
           Media Inventory
         </Link>
         <Link 
-          href="/admin/settings" 
+          href="/admin/contact" 
           className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
             isActive('/admin/settings') ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-gray-300'
           }`}
         >
           <Settings className="w-5 h-5" />
-          Settings
+          Contact
         </Link>
       </nav>
       <div className="p-4 border-t border-white/10">

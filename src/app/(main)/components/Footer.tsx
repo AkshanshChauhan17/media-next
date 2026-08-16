@@ -10,7 +10,7 @@ export default function Footer() {
   ];
 
   const usefulLinks = [
-    "Your Guide to The Media Ant", "Become an Agency Partner",
+    "Your Guide to BookmyadSpace", "Become an Agency Partner",
     "Terms and Condition", "List your Media",
     "Testimonials", "Privacy Policy",
     "Deals", "Careers"
@@ -60,14 +60,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-[#171136] text-white pt-12 pb-8 px-4 md:px-8">
+    <footer className="w-full bg-[#243839] text-white pt-12 pb-8 px-4 md:px-8">
       <div className="max-w-[1600px] mx-auto">
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 pb-8 border-b border-white/10">
           {topLinks.map((item, index) => (
             <div key={item.name} className="flex items-center gap-4 md:gap-8">
-              <Link href={item.href} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <item.icon className="w-5 h-5 text-[#FFD166]" strokeWidth={2} />
-                <span className="font-semibold text-sm md:text-base tracking-wide">{item.name}</span>
+              <Link href={item.href} className="flex items-center gap-2 group transition-colors">
+                <item.icon className="w-5 h-5 text-[#C58B24] group-hover:scale-110 transition-transform" strokeWidth={2} />
+                <span className="font-semibold text-sm md:text-base tracking-wide text-gray-100 group-hover:text-[#C58B24] transition-colors">{item.name}</span>
               </Link>
               {index < topLinks.length - 1 && (
                 <span className="text-white/20 hidden md:block">|</span>
@@ -78,10 +78,10 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 py-12 border-b border-white/10">
           <div>
-            <h4 className="font-bold text-lg mb-6">Useful Links</h4>
+            <h4 className="font-bold text-lg mb-6 tracking-wide">Useful Links</h4>
             <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               {usefulLinks.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-white text-[13px] transition-colors">
+                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
                   {link}
                 </Link>
               ))}
@@ -89,10 +89,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Tools</h4>
+            <h4 className="font-bold text-lg mb-6 tracking-wide">Tools</h4>
             <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               {tools.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-white text-[13px] transition-colors">
+                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
                   {link}
                 </Link>
               ))}
@@ -100,10 +100,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Follow</h4>
+            <h4 className="font-bold text-lg mb-6 tracking-wide">Follow</h4>
             <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               {followLinks.map((link) => (
-                <a key={link} href="#" className="text-gray-400 hover:text-white text-[13px] transition-colors flex items-center gap-1.5 group">
+                <a key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors flex items-center gap-1.5 group font-medium">
                   {link}
                   <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100" />
                 </a>
@@ -112,10 +112,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Popular Industries</h4>
+            <h4 className="font-bold text-lg mb-6 tracking-wide">Popular Industries</h4>
             <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               {industries.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-white text-[13px] transition-colors">
+                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
                   {link}
                 </Link>
               ))}
@@ -126,10 +126,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-10 pb-6">
           {advertisingCategories.map((category) => (
             <div key={category.title}>
-              <h4 className="font-bold text-[15px] mb-5">{category.title}</h4>
+              <h4 className="font-bold text-[15px] mb-5 tracking-wide">{category.title}</h4>
               <div className="grid grid-cols-2 gap-y-3 gap-x-4">
                 {category.links.map((link) => (
-                  <Link key={link} href="#" className="text-gray-400 hover:text-white text-[13px] transition-colors">
+                  <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
                     {link}
                   </Link>
                 ))}

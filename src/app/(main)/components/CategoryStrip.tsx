@@ -10,7 +10,6 @@ type Category = {
 };
 
 export default async function CategoryStrip() {
-  // Fetch only ACTIVE categories from database
   let categories: Category[] = [];
   try {
     const [rows] = await pool.execute(
@@ -22,11 +21,9 @@ export default async function CategoryStrip() {
   }
 
   return (
-    <div className="w-full bg-[#1a133d] text-white overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-      <div className="max-w-[1600px] mx-auto px-4 h-[42px] flex items-center justify-start xl:justify-center gap-7 md:gap-9 min-w-max">
+    <div className="w-full bg-[#C58B24] text-white overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] shadow-sm">
+      <div className="max-w-[1600px] mx-auto px-4 h-[46px] flex items-center justify-start xl:justify-center gap-7 md:gap-10 min-w-max">
         {categories.map((category) => {
-          // Dynamically map the saved icon name to the actual Lucide Component
-          // If the icon is not found, default to 'Folder'
           const iconName = category.icon || "Folder";
           const Icon = (Icons as unknown as Record<string, LucideIcon>)[iconName] ?? Icons.Folder;
 
@@ -34,19 +31,18 @@ export default async function CategoryStrip() {
             <Link
               key={category.name}
               href={`/media/${category.slug}`}
-              className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2.5 text-gray-50 hover:text-gray transition-colors group"
             >
-              <Icon className="w-4 h-4 md:w-[18px] md:h-[18px]" strokeWidth={2} />
-              <span className="text-[13px] md:text-sm font-medium tracking-wide">
+              <Icon className="w-4 h-4 md:w-[18px] md:h-[18px] group-hover:scale-110 transition-transform" strokeWidth={2.5} />
+              <span className="text-[13px] md:text-sm font-semibold tracking-wide">
                 {category.name}
               </span>
             </Link>
           );
         })}
 
-        {/* Placeholder if database is completely empty */}
         {categories.length === 0 && (
-          <span className="text-sm text-gray-400">Loading categories...</span>
+          <span className="text-sm text-white/60 font-medium tracking-wide">Loading categories...</span>
         )}
       </div>
     </div>
