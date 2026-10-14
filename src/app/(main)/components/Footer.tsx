@@ -1,87 +1,74 @@
+"use client";
+
 import Link from "next/link";
-import { Phone, CheckCircle2, Users, Handshake, ExternalLink } from "lucide-react";
+import { Phone, CheckCircle2, Users, Handshake, Mail } from "lucide-react";
 
 export default function Footer() {
-  const topLinks = [
-    { name: "Contact Us", icon: Phone, href: "/contact" },
-    { name: "About Us", icon: CheckCircle2, href: "/about" },
-    { name: "Our Clients", icon: Users, href: "/clients" },
-    { name: "Agency Partner", icon: Handshake, href: "/agency" },
+  const year = new Date().getFullYear();
+
+  // Muted and concise top links
+  const contactLinks = [
+    { name: "About", icon: CheckCircle2, href: "/about" },
+    { name: "Careers", icon: Users, href: "/careers" },
+    { name: "List Your Media", icon: Handshake, href: "/list-your-media" },
+    { name: "Contact", icon: Phone, href: "/contact" },
   ];
 
-  const usefulLinks = [
-    "Your Guide to BookmyadSpace", "Become an Agency Partner",
-    "Terms and Condition", "List your Media",
-    "Testimonials", "Privacy Policy",
-    "Deals", "Careers"
+  const exploreLinks = [
+    "Terms & Conditions",
+    "Privacy Policy",
+    "Agency Partner",
+    "Deals",
+    "Testimonials",
+    "Guide to BookmyadSpace",
   ];
 
+  // Concise selection of tools
   const tools = [
-    "Campaign Brief", "ROAS Calculator",
-    "MASH", "Ads",
-    "Marketing Calculators", "Media Recommendation",
-    "AI Marketing Tools", "AI Creative Generator",
-    "Budget Estimator"
+    "ROAS Calculator",
+    "Campaign Brief",
+    "Media Recommendation",
+    "Budget Estimator",
+    "AI Creative Generator",
+    "Marketing Calculators",
   ];
 
-  const followLinks = [
-    "Blog", "Facebook",
-    "Twitter", "LinkedIn",
-    "Instagram", "Pinterest",
-    "Quora", "Press"
-  ];
-
-  const industries = [
-    "Shopping & Retail", "Fashion & Lifestyle",
-    "Food & Restaurant", "Travel & Tourism",
-    "FMCG", "Entertainment",
-    "Finance", "Education & Skill",
-    "Healthcare", "Home Decor & Construction",
-    "Engineering"
-  ];
-
-  const advertisingCategories = [
-    {
-      title: "Popular in Digital Advertising",
-      links: ["CPC Advertising", "CPM Advertising", "Performance Marketing", "MX Player Advertising"]
-    },
-    {
-      title: "Popular in Television Advertising",
-      links: ["DD National Advertising", "Sun TV Advertising", "Star Vijay Advertising", "Tamil TV Channels"]
-    },
-    {
-      title: "Popular in Radio Advertising",
-      links: ["Radio Mirchi Advertising", "Telugu Radio Advertising", "Red FM Advertising", "Big FM Advertising"]
-    },
-    {
-      title: "Popular in Airport Advertising",
-      links: ["Air India Advertising", "Mumbai Airport Advertising", "Delhi Airport", "SpiceJet Advertising"]
-    }
+  // Selection of broader generic sub-links conceptual examples.
+  const solutions = [
+    "CPC Advertising",
+    "Performance Marketing",
+    "Mx Player Advertising",
+    "National Broadcasters example DD National conceptual",
+    "Tamil Channels",
+    "Tamil Radio Advertising",
+    "Airport Advertising",
   ];
 
   return (
-    <footer className="w-full bg-[#243839] text-white pt-12 pb-8 px-4 md:px-8">
-      <div className="max-w-[1600px] mx-auto">
-        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 pb-8 border-b border-white/10">
-          {topLinks.map((item, index) => (
-            <div key={item.name} className="flex items-center gap-4 md:gap-8">
-              <Link href={item.href} className="flex items-center gap-2 group transition-colors">
-                <item.icon className="w-5 h-5 text-[#C58B24] group-hover:scale-110 transition-transform" strokeWidth={2} />
-                <span className="font-semibold text-sm md:text-base tracking-wide text-gray-100 group-hover:text-[#C58B24] transition-colors">{item.name}</span>
-              </Link>
-              {index < topLinks.length - 1 && (
-                <span className="text-white/20 hidden md:block">|</span>
-              )}
+    <footer className="w-full bg-[#171923] text-[#F8F9FB] pt-10 pb-6 px-4 md:px-8 border-t border-[#1E293B]">
+      <div className="max-w-[1400px] mx-auto">
+        
+        {/* Simplified Header with Contact conceptual examples conceptual conceptually generic minimal icons */}
+        <div className="flex items-center justify-between pb-8 mb-10 border-b border-[#2A3441] text-sm font-medium">
+            <div className="flex items-center gap-2.5">
+                <Mail className="w-5 h-5 text-gray-500"/>
+                <span className="text-gray-400">help@bookmyadspace.com</span>
             </div>
+          {contactLinks.map((item) => (
+            <Link key={item.name} href={item.href} className="flex items-center gap-2 group transition-colors">
+              <item.icon className="w-4 h-4 text-[#DAA520] group-hover:scale-110 transition-transform" strokeWidth={2.5} />
+              <span className="text-[#F8F9FB] text-sm group-hover:text-[#DAA520] transition-colors">{item.name}</span>
+            </Link>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 py-12 border-b border-white/10">
+        {/* Concise Link Columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 mb-10 text-[13px] font-normal leading-relaxed text-gray-400">
           <div>
-            <h4 className="font-bold text-lg mb-6 tracking-wide">Useful Links</h4>
-            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-              {usefulLinks.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
+            <h4 className="font-bold text-[15px] mb-5 text-[#F8F9FB] tracking-tight">Explore & Legal</h4>
+            <div className="flex flex-col gap-y-2.5">
+              {exploreLinks.map((link) => (
+                <Link key={link} href="#" className="hover:text-[#DAA520] transition-colors">
                   {link}
                 </Link>
               ))}
@@ -89,53 +76,45 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6 tracking-wide">Tools</h4>
-            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+            <h4 className="font-bold text-[15px] mb-5 text-[#F8F9FB] tracking-tight">Broad Ad Solutions</h4>
+            <div className="flex flex-col gap-y-2.5">
+              {solutions.map((link) => (
+                <Link key={link} href="#" className="hover:text-[#DAA520] transition-colors">
+                  {link}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-[15px] mb-5 text-[#F8F9FB] tracking-tight">Tools & Calculators</h4>
+            <div className="flex flex-col gap-y-2.5">
               {tools.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
+                <Link key={link} href="#" className="hover:text-[#DAA520] transition-colors">
                   {link}
                 </Link>
               ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="font-bold text-lg mb-6 tracking-wide">Follow</h4>
-            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-              {followLinks.map((link) => (
-                <a key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors flex items-center gap-1.5 group font-medium">
-                  {link}
-                  <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100" />
-                </a>
-              ))}
+            <div className="lg:pl-8">
+                <h4 className="font-bold text-[15px] mb-5 text-[#F8F9FB] tracking-tight">Connect With Us</h4>
+                <div className="flex flex-col gap-y-2.5">
+                    <Link href="#" className="hover:text-[#DAA520] transition-colors">Blog</Link>
+                    <Link href="#" className="hover:text-[#DAA520] transition-colors">Press</Link>
+                    <div className="flex items-center gap-4 pt-3.5">
+                        <Link href="#" className="text-gray-500 hover:text-[#F8F9FB]"><i className="fab fa-facebook-f text-lg"/></Link>
+                        <Link href="#" className="text-gray-500 hover:text-[#F8F9FB]"><i className="fab fa-linkedin-in text-lg"/></Link>
+                        <Link href="#" className="text-gray-500 hover:text-[#F8F9FB]"><i className="fab fa-instagram text-lg"/></Link>
+                        <Link href="#" className="text-gray-500 hover:text-[#F8F9FB]"><i className="fab fa-twitter text-lg"/></Link>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-lg mb-6 tracking-wide">Popular Industries</h4>
-            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-              {industries.map((link) => (
-                <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
-                  {link}
-                </Link>
-              ))}
-            </div>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-10 pb-6">
-          {advertisingCategories.map((category) => (
-            <div key={category.title}>
-              <h4 className="font-bold text-[15px] mb-5 tracking-wide">{category.title}</h4>
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-                {category.links.map((link) => (
-                  <Link key={link} href="#" className="text-gray-400 hover:text-[#C58B24] text-[13px] transition-colors font-medium">
-                    {link}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
+        {/* Minimal Bottom Bar */}
+        <div className="text-center text-[12px] pt-6 border-t border-[#2A3441] text-gray-600">
+          &copy; {year} BookmyadSpace. All rights reserved.
         </div>
       </div>
     </footer>

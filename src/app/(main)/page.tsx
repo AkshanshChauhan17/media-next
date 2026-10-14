@@ -1,4 +1,3 @@
-import AgencyPartner from "./components/AgencyPartner";
 import BrowseGenre from "./components/BrowseGenre";
 import CaseStudies from "./components/CaseStudies";
 import ClientTestimonials from "./components/ClientTestimonials";
@@ -6,24 +5,29 @@ import ConsultationBanner from "./components/ConsultationBanner";
 import FAQs from "./components/FAQs";
 import Hero from "./components/Hero";
 import LatestAddition from "./components/LatestAddition";
-import OurClients from "./components/OurClients";
+import LatestMediaStories from "./components/LatestMediaStories";
 import PopularBlogPosts from "./components/PopularBlogPosts";
 import PreFooterCTA from "./components/PreFooterCTA";
-import TopMediaSpends from "./components/TopMediaSpends";
+import ServicesStack from "./components/ServicesStack";
+import AgencyPartner from "./components/AgencyPartner";
+import HowItWorks from "./components/HowItWorks";
+import EverythingYouNeed from "./components/EverytingYouNeed";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Hero />
+      <LatestMediaStories />
       <BrowseGenre />
       <AgencyPartner />
-      <TopMediaSpends />
+      <ServicesStack />
       <LatestAddition />
       <ConsultationBanner />
       <PopularBlogPosts />
       <CaseStudies />
       <ClientTestimonials />
-      <OurClients />
+      <EverythingYouNeed />
+      <HowItWorks />
       <FAQs />
       <PreFooterCTA />
     </div>

@@ -1,55 +1,141 @@
+"use client";
+
 import Link from "next/link";
-import { Handshake, PieChart, CircleDollarSign, TrendingUp } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, BarChart3, Target, Zap } from "lucide-react";
+import Image from "next/image";
 
 export default function AgencyPartner() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate scroll progress (0 to 1) for THIS specific section
+      // 0 = section viewport ke bottom se touch hua
+      // 1 = section viewport ke top se bahar nikal gaya
+      const totalScrollDistance = windowHeight + rect.height;
+      const currentScroll = windowHeight - (rect.top)*2;
+      
+      let progress = currentScroll / totalScrollDistance;
+      
+      // Range ko 0 se 1 ke beech lock kar diya
+      progress = Math.max(0, Math.min(1, progress));
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check on load
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 3 images hain, toh progress ko 3 hisso mein batna hai (0-0.33, 0.34-0.66, 0.67-1.0)
+  // Math.min(2, ...) ensure karega ki index max 2 tak hi jaye (0, 1, 2)
+  const activeImageIndex = Math.min(2, Math.floor(scrollProgress * 3));
+
+  // YAHAN APNI 3 BILLBOARD IMAGES KE NAAM DAAL DO JINME ADS LAGE HUE HAIN
+  const billboardImages = [
+    "/billboard-ad1.png", 
+    "/billboard-ad2.png", 
+    "/billboard-ad3.png", 
+  ];
+
   return (
-    <section className="max-w-[1600px] bg-white mx-auto px-4 py-8 md:py-12 w-full">
-      <div className="bg-[#0A4D28] rounded-[20px] relative overflow-hidden flex flex-col md:flex-row items-center justify-between min-h-[320px]">
+    <section 
+      ref={containerRef}
+      className="max-w-[1600px] bg-[#F8FAFC] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full border-y border-gray-200 relative"
+    >
+      <div className="bg-white rounded-[32px] relative overflow-hidden flex flex-col md:flex-row items-center justify-between min-h-[500px] md:min-h-[600px] border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.05)]">
         
-        <div className="absolute right-[-10%] md:right-[5%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-white/5 rounded-full pointer-events-none" />
-        <div className="absolute right-[0%] md:right-[15%] top-1/2 -translate-y-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-white/5 rounded-full pointer-events-none" />
+        {/* Background Pattern for Light Theme */}
+        <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none" 
+             style={{ 
+               backgroundImage: 'radial-gradient(#E5A93D 1px, transparent 1px)', 
+               backgroundSize: '32px 32px',
+               maskImage: 'linear-gradient(to right, transparent, black)'
+             }} 
+        />
         
-        <div className="relative z-10 p-8 md:p-14 lg:p-16 max-w-2xl flex flex-col items-start text-left">
-          <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-white mb-4 md:mb-5 leading-tight">
-            Become an Agency Partner
+        <div className="relative z-10 p-8 md:p-14 lg:p-20 max-w-2xl flex flex-col items-start text-left w-full md:w-1/2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-widest mb-6">
+            <Zap className="w-3.5 h-3.5" fill="currentColor" /> Premium Agencies
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0B111A] mb-6 leading-[1.1] tracking-tighter">
+            Elevate Your <br/>
+            <span className="text-[#E5A93D]">Advertising Game</span>
           </h2>
-          <p className="text-[#C58B24] text-base md:text-[19px] leading-relaxed mb-8 font-medium drop-shadow-sm">
-            Get exclusive access to Advantage 360 – Plan, Compare & Sell
-            Media Smarter with Real-Time Rates & Tools.
+          
+          <p className="text-gray-500 text-lg md:text-xl leading-relaxed mb-10 font-medium max-w-lg">
+            Join the elite network of agencies dominating the outdoor advertising space. Secure prime billboard locations and maximize client reach.
           </p>
-          <Link
-            href="/agency-partner"
-            className="bg-[#C58B24] hover:bg-[#b07b1e] transition-colors text-white font-bold text-[13px] md:text-sm px-8 py-3.5 rounded shadow-sm tracking-wide"
-          >
-            JOIN NOW
-          </Link>
-        </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Link
+              href="/agency-partner"
+              className="bg-[#0B111A] hover:bg-[#1A222C] transition-colors text-white font-bold text-base px-8 py-4 rounded-2xl shadow-[0_10px_30px_rgba(11,17,26,0.2)] tracking-wide flex items-center justify-center gap-3 group"
+            >
+              Start Dominating
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
 
-        <div className="relative z-10 w-full md:w-[40%] flex justify-center items-center p-8 md:p-0 md:pr-16 lg:pr-24 h-full min-h-[250px] md:min-h-0">
-          <div className="relative w-[220px] h-[220px] md:w-[280px] md:h-[280px]">
-            <div className="absolute inset-0 m-auto w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center shadow-xl z-20 border-4 border-[#0A4D28]/10 hover:scale-105 transition-transform duration-300">
-              <Handshake className="w-16 h-16 md:w-20 md:h-20 text-[#0A4D28]" strokeWidth={1.5} />
-            </div>
-
-            <div className="absolute bottom-4 right-0 md:-right-4 w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-lg z-30 border-2 border-gray-100 hover:-translate-y-1 transition-transform">
-              <PieChart className="w-6 h-6 md:w-8 md:h-8 text-[#C58B24]" strokeWidth={2.5} />
-            </div>
-
-            <div className="absolute bottom-8 left-0 md:-left-4 w-12 h-12 md:w-16 md:h-16 bg-[#243839] rounded-full flex items-center justify-center shadow-lg z-30 border-2 border-[#243839]/50 hover:-translate-y-1 transition-transform">
-              <div className="flex items-center justify-center">
-                <CircleDollarSign className="w-6 h-6 md:w-8 md:h-8 text-white" strokeWidth={2.5} />
-                <TrendingUp className="w-3 h-3 md:w-4 md:h-4 text-[#C58B24] absolute top-2 right-2 md:top-3 md:right-3" strokeWidth={3} />
+          <div className="flex items-center gap-6 mt-10 pt-10 border-t border-gray-100 w-full">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-200">
+                <BarChart3 className="w-5 h-5 text-gray-600" />
+              </div>
+              <div className="text-sm">
+                <p className="font-bold text-[#0B111A]">Maximum Impact</p>
+                <p className="text-gray-500 font-medium text-xs">High traffic zones</p>
               </div>
             </div>
-
-            <div className="absolute top-0 right-4 md:right-8 w-14 h-14 md:w-[72px] md:h-[72px] bg-[#C58B24] rounded-full flex items-center justify-center shadow-lg z-30 border-2 border-[#C58B24]/50 hover:scale-110 transition-transform">
-              <div className="flex flex-col items-center justify-center leading-none">
-                <span className="text-[12px] md:text-[14px] font-black text-white tracking-widest">BM</span>
-                <span className="text-[12px] md:text-[14px] font-black text-[#0A4D28] tracking-widest">AS</span>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-200">
+                <Target className="w-5 h-5 text-gray-600" />
+              </div>
+              <div className="text-sm">
+                <p className="font-bold text-[#0B111A]">Prime Spots</p>
+                <p className="text-gray-500 font-medium text-xs">Exclusive inventory</p>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Dynamic Image Container */}
+        <div className="relative z-10 w-full md:w-1/2 flex justify-center items-center p-8 md:p-14 h-[400px] md:h-full bg-gray-50 md:bg-transparent overflow-hidden">
+          <div className="relative w-full max-w-[600px] aspect-square transform transition-transform duration-700">
+            {billboardImages.map((src, index) => (
+              <div 
+                key={index}
+                className="absolute inset-0 transition-opacity duration-1000 ease-in-out drop-shadow-2xl"
+                style={{ 
+                  opacity: activeImageIndex === index ? 1 : 0,
+                  zIndex: activeImageIndex === index ? 10 : 0,
+                }}
+              >
+                {/* 
+                  Humne object-contain use kiya hai taaki tumhari puri image fit ho. 
+                  Agar image stretch lag rahi ho toh object-cover try kar lena. 
+                */}
+                <Image
+                  src={src}
+                  alt={`Billboard Display ${index + 1}`}
+                  fill
+                  className="object-contain"
+                  priority={index === 0} 
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
