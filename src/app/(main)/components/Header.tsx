@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, Search, User, Monitor, MapPin, Loader2, Image as ImageIcon } from "lucide-react";
+import { Menu, Search, User, Monitor, MapPin, Loader2, Image as ImageIcon, X } from "lucide-react";
 import { searchHoardings } from "@/actions/media";
 
 const HighlightMatch = ({ text, query }: { text: string; query: string }) => {
@@ -86,17 +86,18 @@ function SearchBar({ isMobile }: { isMobile?: boolean }) {
       ref={searchRef}
       className={`relative ${isMobile ? "w-full" : "flex-1 max-w-2xl mx-4 lg:mx-8"}`}
     >
-      <div className={`absolute left-4 top-1/2 -translate-y-1/2 text-gray-400`}>
-        <Search className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
+      <div className={`absolute left-5 top-1/2 -translate-y-1/2 text-gray-400`}>
+        <Search className={isMobile ? "w-[18px] h-[18px]" : "w-5 h-5"} />
       </div>
+      
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => query.length >= 2 && setShowDropdown(true)}
-        placeholder={isMobile ? 'Search ad spaces...' : 'Search ad spaces anywhere...'}
-        className={`w-full bg-[#1A222C] border border-[#2A3441] text-white placeholder-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-[#E5A93D]/50 focus:border-[#E5A93D] transition-all font-medium ${
-          isMobile ? "py-2.5 pl-11 pr-4 text-sm" : "py-3 pl-12 pr-6 text-sm"
+        placeholder="Search by city, location or ad format..."
+        className={`w-full bg-[#1C2433] border-none text-gray-200 placeholder-gray-400 rounded-full focus:outline-none focus:ring-1 focus:ring-[#2A3441] transition-all font-normal ${
+          isMobile ? "py-3.5 pl-12 pr-4 text-[15px]" : "py-3.5 pl-12 pr-6 text-[15px]"
         }`}
       />
 
@@ -144,46 +145,112 @@ function SearchBar({ isMobile }: { isMobile?: boolean }) {
 }
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <header className="bg-[#0B111A] text-white sticky top-0 z-50 border-b border-[#1E293B] shadow-sm">
-      <div className="max-w-[1600px] mx-auto px-4 h-20 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4 md:gap-6">
-          <button className="text-gray-300 hover:text-[#E5A93D] transition-colors">
-            <Menu className="w-6 h-6 md:w-7 md:h-7" />
-          </button>
+      <div className="max-w-[1600px] mx-auto px-4 h-24 md:h-20 flex items-center justify-between gap-4">
+        
+        {/* Left Side: LOGO with Tagline */}
+        <Link href="/" className="flex items-start gap-1 md:gap-2">
+          <div className="relative flex items-center justify-center mt-1">
+            <MapPin className="w-6 h-6 md:w-7 md:h-7 text-[#E5A93D]" />
+          </div>
           
-          <Link href="/" className="flex items-center gap-1 md:gap-2">
-            <div className="relative hidden sm:flex items-center justify-center">
-              <Monitor className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={1.5} />
-              <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#E5A93D] absolute -bottom-1" fill="#E5A93D" />
-            </div>
-            
-            <div className="flex items-center text-xl md:text-2xl font-bold tracking-tight mt-1">
+          <div className="flex flex-col">
+            <div className="flex items-center text-xl md:text-2xl font-bold tracking-tight">
               <span className="text-white">Bookmy</span>
-              <span className="text-[#E5A93D]">ad</span>
+              <span className="text-white mr-1"> </span>
+              <span className="text-[#E5A93D]">Ad</span>
               <span className="text-white">Space</span>
             </div>
-          </Link>
-        </div>
+            
+            {/* Tagline section mimicking the image design */}
+            <div className="flex flex-col mt-0.5 text-[9px] md:text-[11px] text-gray-400 font-medium leading-[1.2] tracking-wide">
+              <span>Ad Ka Space? BookMyAdSpace.</span>
+              <span>Advertise Anywhere, Anytime.</span>
+            </div>
+          </div>
+        </Link>
 
+        {/* Center: Desktop Search Bar */}
         <div className="hidden md:flex flex-1 justify-center">
           <SearchBar isMobile={false} />
         </div>
 
-        <div className="flex items-center gap-5 md:gap-8 text-sm md:text-base font-medium">
-          <Link href="/contact" className="hidden lg:block text-gray-300 hover:text-white transition-colors">
-            Contact Us
-          </Link>
-          <Link href="/auth" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group">
-            <User className="w-5 h-5 md:w-5 md:h-5 group-hover:text-[#E5A93D] transition-colors" />
-            <span className="hidden sm:block">Sign In</span>
-          </Link>
-          <Link href="/campaign" className="hidden md:flex items-center justify-center bg-[#E5A93D] hover:bg-[#F2B950] text-[#0B111A] px-6 py-2.5 rounded-full font-bold transition-colors">
-            Get Started
-          </Link>
+        {/* Right Side: Navigation Links & Mobile Hamburger Menu */}
+        <div className="flex items-center gap-5 md:gap-8">
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-5 md:gap-8 text-sm md:text-base font-medium">
+            <Link href="/contact" className="hidden lg:block text-gray-300 hover:text-white transition-colors">
+              Contact Us
+            </Link>
+            <Link href="/auth" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group">
+              <User className="w-5 h-5 md:w-5 md:h-5 group-hover:text-[#E5A93D] transition-colors" />
+              <span className="hidden sm:block">Sign In</span>
+            </Link>
+            <Link href="/campaign" className="hidden md:flex items-center justify-center bg-[#E5A93D] hover:bg-[#F2B950] text-[#0B111A] px-6 py-2.5 rounded-full font-bold transition-colors">
+              Get Started
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger Menu Toggle Button */}
+          <button 
+            className="md:hidden text-gray-300 hover:text-white transition-colors p-1 -mr-1"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-7 h-7" strokeWidth={1.5} />
+            ) : (
+              <Menu className="w-7 h-7" strokeWidth={1.5} />
+            )}
+          </button>
         </div>
       </div>
 
+      {/* Mobile Menu Dropdown Container */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-[#1E293B] bg-[#0B111A] px-4 py-5 flex flex-col gap-5 animate-in slide-in-from-top-2 duration-200">
+          <Link 
+            href="/contact" 
+            className="text-gray-300 hover:text-white transition-colors text-[15px] font-medium"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Contact Us
+          </Link>
+          <div className="h-px bg-[#1E293B] w-full" />
+          <Link 
+            href="/auth" 
+            className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-[15px] font-medium"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <User className="w-5 h-5" />
+            Sign In
+          </Link>
+          <div className="h-px bg-[#1E293B] w-full" />
+          <Link 
+            href="/campaign" 
+            className="flex items-center justify-center bg-[#E5A93D] hover:bg-[#F2B950] text-[#0B111A] px-6 py-3 rounded-full font-bold transition-colors w-full text-[15px] mt-2"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Get Started
+          </Link>
+        </div>
+      )}
+
+      {/* Bottom: Mobile Search Bar */}
       <div className="block md:hidden px-4 pb-4 bg-[#0B111A]">
         <SearchBar isMobile={true} />
       </div>

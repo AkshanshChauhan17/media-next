@@ -184,15 +184,17 @@ function AuthContent() {
               </div>
             </div>
 
-            {isAdmin ? (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-red-500/15 text-red-400 border border-red-500/30 rounded-full text-[11px] font-black tracking-[0.2em] uppercase mb-6">
-                <ShieldAlert className="w-3.5 h-3.5" /> Restricted Area
-              </div>
-            ) : (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1A222C] text-[#E5A93D] border border-[#2A3441] rounded-full text-[11px] font-black tracking-[0.2em] uppercase mb-6">
-                <Sparkles className="w-3.5 h-3.5" /> Media Portal
-              </div>
-            )}
+            <div className="block mb-8">
+              {isAdmin ? (
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-red-500/15 text-red-400 border border-red-500/30 rounded-full text-[11px] font-black tracking-[0.2em] uppercase">
+                  <ShieldAlert className="w-3.5 h-3.5" /> Restricted Area
+                </div>
+              ) : (
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1A222C] text-[#E5A93D] border border-[#2A3441] rounded-full text-[11px] font-black tracking-[0.2em] uppercase">
+                  <Sparkles className="w-3.5 h-3.5" /> Media Portal
+                </div>
+              )}
+            </div>
 
             <AnimatePresence mode="wait">
               <motion.div

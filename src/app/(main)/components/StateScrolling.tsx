@@ -1,40 +1,85 @@
 "use client";
 
-export default function StateMarquee() {
+export default function StateTextMarquee() {
+  // Aap yahan states add, remove ya reorder kar sakte hain
+  const states = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", 
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", 
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", 
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu & Kashmir"
+  ];
+
   return (
-    <section
-      className="relative w-full overflow-hidden py-3 sm:py-5"
+    <section 
+      className="w-full bg-[#0a0f1c] text-white py-4 overflow-hidden relative"
       aria-label="Our service locations"
     >
-      {/* Sirf ek single div jo infinite background scroll handle karega */}
-      <div className="w-full h-[100px] marquee-bg hover:[animation-play-state:paused] motion-reduce:animate-none" />
+      <div className="marquee-wrapper">
+        {/* Pehli Copy */}
+        <div className="marquee-content">
+          {states.map((state, index) => (
+            <div key={`first-${index}`} className="marquee-item">
+              <span className="text-sm md:text-lg font-semibold uppercase tracking-widest text-gray-200">
+                {state}
+              </span>
+              {/* Star icon separator - isko text-yellow-500 se color diya h */}
+              <span className="text-yellow-500 mx-6 text-xl leading-none">✦</span>
+            </div>
+          ))}
+        </div>
+        
+        {/* Dusri Copy (Seamless loop ke liye zaruri hai) */}
+        <div className="marquee-content" aria-hidden="true">
+          {states.map((state, index) => (
+            <div key={`second-${index}`} className="marquee-item">
+              <span className="text-sm md:text-lg font-semibold uppercase tracking-widest text-gray-200">
+                {state}
+              </span>
+              <span className="text-yellow-500 mx-6 text-xl leading-none">✦</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <style jsx>{`
-        .marquee-bg {
-          background-image: url('/state_strip.png');
-          background-repeat: repeat-x;
-          
-          /* 
-            "auto 100px" ka matlab height fix 100px rahegi aur 
-            width image ke hisaab se auto adjust hogi (stretch nahi hogi).
-          */
-          background-size: auto 100px;
-          
-          /* Animation speed yahan se adjust karein (e.g., 10s ya 20s) */
-          animation: seamless-bg-scroll 15s linear infinite;
+        .marquee-wrapper {
+          display: flex;
+          width: 100%;
         }
 
-        @keyframes seamless-bg-scroll {
+        .marquee-content {
+          display: flex;
+          flex-shrink: 0;
+          align-items: center;
+          /* Speed adjust karne ke liye is '50s' ko change karein */
+          animation: scroll-text 50s linear infinite;
+        }
+
+        .marquee-item {
+          display: flex;
+          align-items: center;
+        }
+
+        /* Hover karne par text scroll ruk jayega */
+        .marquee-wrapper:hover .marquee-content {
+          animation-play-state: paused;
+        }
+
+        /* Reduced motion support accessibility ke liye */
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-content {
+            animation-play-state: paused;
+          }
+        }
+
+        @keyframes scroll-text {
           0% {
-            background-position: 0 0;
+            transform: translateX(0);
           }
           100% {
-            /* 
-              Aapki 2100x600 image ke hisaab se 100px height par uski natural width 350px hoti hai.
-              Isliye hum exactly -350px translate kar rahe hain taaki perfect loop bane bina gap ke.
-              (Agar aap koi aur image lagate ho aur jhatka feel ho, toh is -350px ko thoda badha/ghata lena)
-            */
-            background-position: -350px 0;
+            /* 100% shift karne se pehli list exact dusri list ki jagah le legi */
+            transform: translateX(-100%);
           }
         }
       `}</style>

@@ -1,9 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
   Search,
   CalendarDays,
   FileText,
@@ -12,7 +10,6 @@ import {
   ShoppingCart,
   X,
   ArrowRight,
-  Tag,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -29,29 +26,10 @@ import LedBillboard from "./Billboard";
 
 export default function Hero() {
   const router = useRouter();
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
   const [budget, setBudget] = useState("");
 
   const heroRef = useRef<HTMLDivElement>(null);
-
-  const slides = [
-    {
-      title: "India's #1 Billboard",
-      titleSpan: "Booking Platform",
-      subtitle: "Discover, book and manage premium outdoor advertising spaces.",
-    },
-    {
-      title: "Reach Your Target",
-      titleSpan: "Audience Instantly",
-      subtitle: "Plan data-driven campaigns that truly stand out.",
-    },
-    {
-      title: "Maximize Your ROI",
-      titleSpan: "Starting Today",
-      subtitle: "Track, optimize, and scale your brand performance.",
-    },
-  ];
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -66,20 +44,9 @@ export default function Hero() {
   const handleMouseMove = (event: React.MouseEvent) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
-    mouseX.set(event.clientX - rect.left); // Fixed missing minus sign
-    mouseY.set(event.clientY - rect.top); // Fixed missing minus sign
+    mouseX.set(event.clientX - rect.left);
+    mouseY.set(event.clientY - rect.top);
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length); // Fixed missing minus sign
 
   const handleFindClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -97,7 +64,7 @@ export default function Hero() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
     },
   };
 
@@ -115,7 +82,6 @@ export default function Hero() {
       <div
         ref={heroRef}
         onMouseMove={handleMouseMove}
-        // CHANGED: Flex-col and justify-between to push the marquee to the bottom
         className="relative w-full bg-[#0B111A] overflow-hidden min-h-[100vh] lg:min-h-[800px] flex flex-col justify-between pt-24 pb-10"
       >
         {/* Background Layers */}
@@ -148,68 +114,42 @@ export default function Hero() {
         />
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E5A93D]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none z-2" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 pointer-events-none z-2" />
+        
         <LedBillboard />
 
-        {/* TOP SECTION: 2 Columns (Text & Cards) */}
+        {/* TOP SECTION: 2 Columns */}
         <div className="max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10 mb-16">
           
-          {/* Left Column: Text & Slider */}
-          <div className="flex-1 w-full max-w-3xl text-white">
-            <div className="min-h-[220px] sm:min-h-[280px] flex flex-col justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-black leading-[1.05] mb-6 tracking-tighter">
-                    {slides[currentSlide].title}
-                    <br className="hidden sm:block" />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E5A93D] to-[#F2B950]">
-                      {" "}
-                      {slides[currentSlide].titleSpan}
-                    </span>
-                  </h1>
-                  <p className="text-lg sm:text-xl md:text-2xl font-medium mb-10 text-gray-400 max-w-2xl leading-relaxed">
-                    {slides[currentSlide].subtitle}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
+          {/* Left Column: Image-based Static Content */}
+          <div className="flex-1 w-full max-w-2xl text-white flex flex-col justify-center">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="flex items-center gap-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <button
-                onClick={prevSlide}
-                className="w-12 h-12 rounded-full border border-[#2A3441] flex items-center justify-center hover:bg-[#1A222C] hover:border-[#E5A93D] hover:text-[#E5A93D] transition-all relative z-10"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <div className="flex items-center gap-3">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-500 relative z-10 ${
-                      currentSlide === index
-                        ? "w-8 bg-[#E5A93D]"
-                        : "w-2 bg-[#2A3441] hover:bg-gray-500"
-                    }`}
-                  />
-                ))}
+              {/* Blue Pill Badge */}
+              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#0E1E35] text-[#3B82F6] text-xs font-bold uppercase tracking-wider mb-8 border border-[#1A2E4C]">
+                INDIA'S OUTDOOR ADVERTISING MARKETPLACE
               </div>
-              <button
-                onClick={nextSlide}
-                className="w-12 h-12 rounded-full border border-[#2A3441] flex items-center justify-center hover:bg-[#1A222C] hover:border-[#E5A93D] hover:text-[#E5A93D] transition-all relative z-10"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+
+              {/* Main Heading */}
+              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-black leading-[1.1] mb-6 tracking-tighter">
+                <span className="text-white block">Find. Compare. Book.</span>
+                <span className="text-[#E5A93D] block mt-2">Track. Verify.</span>
+              </h1>
+
+              {/* Description */}
+              <p className="text-lg sm:text-xl font-medium mb-10 text-gray-300 max-w-lg leading-relaxed">
+                Discover the right outdoor media for your brand.
+              </p>
+
+              {/* Divider Line */}
+              <div className="w-full max-w-lg h-px bg-[#1E293B] mb-10"></div>
+
+              {/* Bottom Footer Text */}
+              <h2 className="text-[28px] sm:text-4xl lg:text-[40px] font-bold text-white leading-tight tracking-tight">
+                One Platform. Greater <br className="hidden sm:block" /> Transparency.
+              </h2>
             </motion.div>
           </div>
 
@@ -218,32 +158,9 @@ export default function Hero() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            // Replaced the flexbox with a 2x2 Grid for the 4 cards
             className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6 justify-center items-center relative z-10"
           >
-            {/* CARD 1: Red Discount Offer Box */}
-            <motion.div variants={cardVariants} className="w-full h-[240px]">
-              <div className="w-full h-full bg-[#ff003c] text-white rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group shadow-[0_20px_40px_rgba(255,0,60,0.2)] hover:scale-[1.02] transition-transform duration-300">
-                <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-                <div className="absolute -left-10 -bottom-10 w-40 h-40 border-[20px] border-white/10 rounded-full"></div>
-                
-                <div className="relative z-10">
-                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform origin-bottom-left">
-                    <Tag className="w-7 h-7 text-[#ff003c]" strokeWidth={2.5} />
-                  </div>
-                  <h3 className="text-[26px] font-black leading-none mb-2 tracking-tight">Flat 10% Off</h3>
-                  <p className="text-white/90 font-medium text-sm leading-snug">
-                    Use code <span className="font-bold bg-white text-[#ff003c] px-1.5 py-0.5 rounded">OUTDOOR10</span> on your first booking.
-                  </p>
-                </div>
-                
-                <button className="flex items-center gap-2 font-bold text-base group-hover:gap-4 transition-all relative z-10 w-fit">
-                  Claim Offer <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-
-            {/* CARD 2: Find */}
+            {/* CARD 1: Find */}
             <motion.button
               variants={cardVariants}
               whileHover={{ y: -8, scale: 1.02 }}
@@ -269,7 +186,7 @@ export default function Hero() {
               </div>
             </motion.button>
 
-            {/* CARD 3: Plan */}
+            {/* CARD 2: Plan */}
             <motion.button
               variants={cardVariants}
               whileHover={{ y: -8, scale: 1.02 }}
@@ -295,7 +212,7 @@ export default function Hero() {
               </div>
             </motion.button>
 
-            {/* CARD 4: Buy */}
+            {/* CARD 3: Buy */}
             <motion.div variants={cardVariants} className="w-full h-[240px]">
               <Link
                 href="/auth"
@@ -330,7 +247,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Plan Modal Component (Unchanged) */}
+      {/* Plan Modal Component */}
       <AnimatePresence>
         {isPlanModalOpen && (
           <motion.div

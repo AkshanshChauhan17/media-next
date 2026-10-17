@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Percent, MapPin, Megaphone } from "lucide-react"; // Importing the graphics
+import { Percent, MapPin, Megaphone, Zap } from "lucide-react"; // Importing the graphics
 
 export default function LedBillboard() {
   const [currentAd, setCurrentAd] = useState(0);
   const [time, setTime] = useState("");
 
-  const ads = [
+const ads = [
     {
       id: 1,
       badge: "EXCLUSIVE OFFER",
@@ -37,6 +37,16 @@ export default function LedBillboard() {
       bottomText: "SEEN BY MILLIONS TODAY",
       footer: "CALL: 1-800-BILLBOARD NOW",
       color: "#00f3ff", // Bright Cyan
+      glowSize: "35px",
+    },
+    {
+      id: 4,
+      badge: "LOWEST PRICE",
+      icon: Zap, // Zap ya IndianRupee icon import kar lena lucide-react se
+      topText: "AD STARTS @ ₹69",
+      bottomText: "UNBEATABLE DAILY RATES",
+      footer: "LIMITED SPACES AVAILABLE",
+      color: "#00ff66", // Neon Green
       glowSize: "35px",
     },
   ];
